@@ -11,7 +11,7 @@
 
 ### 环境说明
 
-主要的软件有：JDK11、Node.js版本>=14.1、MySQL8.x版本、Redis 6.2.3、Maven3.6+
+开发环境：JDK11、Node.js版本>=14.1、MySQL8.x版本、Redis 6.2.3、Maven3.6+
 
 前端运行环境：需要使用Node.js搭建一套Vue开发环境（包括vite、Vue、Axios、vue-router、Element-Plus等组件）。
 

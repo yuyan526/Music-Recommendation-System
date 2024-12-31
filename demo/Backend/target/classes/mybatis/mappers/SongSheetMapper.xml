@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.azl.recommendation_system.dao.SongSheetMapper">
+    <resultMap id="sheetResultMap" type="com.azl.recommendation_system.pojo.SongSheet">
+        <result property="uid" column="uid"/>
+        <result property="sheetid" column="sheetid"/>
+        <result property="sheetname" column="sheetname"/>
+
+    </resultMap>
+    <!--查询指定用户id的歌单-->
+    <select id="queryByUid" resultType="com.azl.recommendation_system.pojo.SongSheet">
+        select uid, sheetid, sheetname
+        from song_sheet
+        where uid = #{uid}
+         and isDelete = '1'
+    </select>
+    <!--查询指定歌单id的用户-->
+    <select id="queryBySheetid" resultType="com.azl.recommendation_system.pojo.SongSheet">
+        select uid, sheetid, sheetname
+        from song_sheet
+        where sheetid = #{sheetid}
+    </select>
+    <!--添加歌曲-->
+    <insert id="addSheet" parameterType="com.azl.recommendation_system.pojo.SongSheet">
+        INSERT INTO song_sheet(uid, sheetid, sheetname)
+        VALUES (#{uid}, #{sheetid}, #{sheetname})
+    </insert>
+    <!--客户端更新歌单-->
+    <update id="updateSheet" parameterType="com.azl.recommendation_system.pojo.SongSheet">
+        UPDATE song_sheet
+        SET sheetname = #{sheetname}
+        WHERE sheetid = #{sheetid}
+    </update>
+    <!--删除歌曲-->
+    <update id="deleteSheet">
+        UPDATE song_sheet
+        SET isDelete='0'
+        WHERE sheetid = #{sheetid}
+    </update>
+    <!--管理员查询所有歌单-->
+    <select id="querySheetsNew" resultMap="sheetResultMap">
+        SELECT uid,
+               sheetid,
+               sheetname
+        FROM song_sheet
+        WHERE isDelete = '1'
+        ORDER By uid
+            LIMIT ${currIndex}, ${pageSize}
+    </select>
+    <!--根据歌单名进行模糊查询，传入的参数需要是包含 % 的匹配字符串-->
+    <select id="queryByKeyword" resultMap="sheetResultMap">
+        SELECT uid,
+               sheetid,
+               sheetname
+        FROM song_sheet
+        WHERE isDelete = '1'
+          AND sheetname LIKE #{keyword}
+        LIMIT 10
+    </select>
+
+    <select id="querySongsheetsum" resultType="java.lang.String">
+        SELECT count(*)
+        FROM   song_sheet
+        WHERE  isDelete = "1"
+    </select>
+</mapper>

@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.azl.recommendation_system.dao.AdminMapper">
+    <select id="queryByName" resultType="com.azl.recommendation_system.pojo.Admin">
+        select * from admin where name = #{name}
+    </select>
+
+    <select id="queryAdminsum" resultType="java.lang.String">
+        SELECT count(*)
+        FROM   admin
+    </select>
+</mapper>

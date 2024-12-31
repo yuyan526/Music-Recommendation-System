@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.azl.recommendation_system.dao.CommentMapper">
+    <resultMap id="commentResultMap" type="com.azl.recommendation_system.pojo.Comment">
+        <result property="iid" column="iid"/>
+        <result property="name" column="name"/>
+        <result property="sid" column="sid"/>
+        <result property="comments" column="comments"/>
+    </resultMap>
+    <!--根据歌曲id查询歌曲评论-->
+    <select id="querySongComment" resultMap="commentResultMap">
+        SELECT name,
+               sid,
+               comments
+        FROM comment
+        WHERE iid = #{iid}
+
+    </select>
+    <!--添加评论-->
+    <insert id="addComment" parameterType="com.azl.recommendation_system.pojo.Comment">
+        INSERT INTO comment(iid ,name, sid, comments)
+        VALUES (#{iid}, #{name}, #{sid}, #{comments})
+    </insert>
+
+</mapper>

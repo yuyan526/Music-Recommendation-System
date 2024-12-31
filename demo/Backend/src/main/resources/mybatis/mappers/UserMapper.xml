@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.azl.recommendation_system.dao.UserMapper">
+    <resultMap id="userResultMap" type="com.azl.recommendation_system.pojo.User">
+        <result property="uid" column="uid"/>
+        <result property="name" column="name"/>
+        <result property="gender" column="gender"/>
+        <result property="age" column="age"/>
+        <result property="area" column="area"/>
+        <result property="songtype" column="songtype"/>
+    </resultMap>
+    <!--查询指定id的用户-->
+    <select id="queryById" resultType="com.azl.recommendation_system.pojo.User">
+        select *
+        from user
+        where uid = #{uid}
+    </select>
+
+    <!--查询所有用户-->
+    <select id="queryAll" resultType="com.azl.recommendation_system.pojo.User">
+        select *
+        from user
+    </select>
+    <!--添加用户-->
+    <insert id="addUser" parameterType="com.azl.recommendation_system.pojo.User">
+        INSERT INTO user(uid, name, password, gender, age, area, registerTime, des,songtype)
+        VALUES (#{uid}, #{name}, #{password}, #{gender}, #{age}, #{area}, #{registerTime}, #{des}, #{songtype})
+    </insert>
+    <!--更新用户，用户名、性别、年龄、所在地区、个人简介等-->
+    <update id="updateUser" parameterType="com.azl.recommendation_system.pojo.User">
+        UPDATE user
+        SET name=#{name},
+            gender=#{gender},
+            age=#{age},
+            area=#{area},
+            des=#{des},
+            songtype=#{songtype}
+        WHERE uid = #{uid}
+    </update>
+    <!--更新密码-->
+    <update id="updatePs">
+        UPDATE user
+        SET password=#{newPs}
+        WHERE uid = #{uid}
+    </update>
+
+    <select id="queryUsersNew" resultMap="userResultMap">
+        SELECT uid,
+               name,
+               gender,
+               age,
+               area
+        FROM user
+        WHERE isDelete = '1'
+        ORDER By uid DESC
+            LIMIT ${currIndex}, ${pageSize}
+    </select>
+
+    <!--根据用户名进行模糊查询，传入的参数需要是包含 % 的匹配字符串-->
+    <select id="queryByKeyword" resultMap="userResultMap">
+        SELECT uid,
+               name,
+               gender,
+               age,
+               area
+        FROM user
+        WHERE isDelete = '1'
+          AND name LIKE #{keyword}
+        LIMIT 10
+    </select>
+
+    <!--删除用户-->
+    <update id="deleteUser">
+        UPDATE user
+        SET isDelete='0'
+        WHERE uid = #{uid}
+    </update>
+
+    <select id="queryUsersum" resultType="java.lang.String">
+        SELECT count(*)
+        FROM   user
+        WHERE  isDelete = "1"
+    </select>
+</mapper>

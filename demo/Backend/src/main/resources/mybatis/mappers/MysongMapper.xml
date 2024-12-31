@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.azl.recommendation_system.dao.MysongMapper">
+    <resultMap id="mysongResultMap" type="com.azl.recommendation_system.pojo.Mysong">
+        <result property="sheetid" column="sheetid"/>
+        <result property="iid" column="iid"/>
+    </resultMap>
+    <!--查找某一歌单的歌曲列表-->
+    <select id="queryBySheetid" resultMap="mysongResultMap">
+        select mysong.sheetid, mysong.iid
+        from mysong
+        where mysong.sheetid = #{sheetid}
+        and isDelete = '1'
+
+    </select>
+    <!--查找某歌曲在某歌单中是否已存在-->
+    <select id="queryBySheetidAndIid" resultMap="mysongResultMap">
+        select mysong.sheetid, mysong.iid
+        from mysong
+        where sheetid = #{sheetid}
+        and iid = #{iid}
+    </select>
+    <!--添加歌曲-->
+    <insert id="addMySong" parameterType="com.azl.recommendation_system.pojo.Mysong">
+        INSERT INTO mysong(sheetid, iid)
+        VALUES (#{sheetid}, #{iid})
+    </insert>
+    <!--删除歌曲-->
+    <update id="deleteMysong">
+        UPDATE mysong
+        SET isDelete='0'
+        WHERE sheetid = #{sheetid}
+        and   iid = #{iid}
+    </update>
+</mapper>

@@ -4,7 +4,7 @@
 
 个性化音乐推荐系统设计及实现，推荐算法使用KNN
 
-个性化音乐推荐系统使用SpringBoot+Vue框架实现。
+使用SpringBoot+Vue框架实现。
 
 
 ## 代码运行

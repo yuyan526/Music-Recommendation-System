@@ -1,6 +1,6 @@
 # Music-Recommendation-System
 
-### 项目简介
+## 项目简介
 
 基于KNN算法的个性化音乐推荐系统设计及实现
 
